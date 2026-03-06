@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -44,25 +46,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UsuarioController {
  
 
+        private static String rutaBase = "http://localhost:8080";
 
 
     @GetMapping
     public String Usuarios(Model model) {
-//        List<Usuario> usuario= new ArrayList<>();  
-//        usuario.add(new Usuario("Dilan","Araiza"));
-//        
-//        model.addAttribute("usuario", usuario);
-//        return "GetAll";
-        Result resultall = usuarioDAOJPAImplementation.GetAll();
+
+        RestTemplate restTemplate = new RestTemplate();
+        
+        ResponseEntity<Usuario> responseEntity = restTemplate.exchange(rutaBase = "demo/api");
         
         
-        Result resultRol = rolDAOImplementation.GetAll();
-        model.addAttribute("roles", resultRol.objects);
-//        Result result = usuarioDAOImplementation.GetAll();
-        model.addAttribute("usuario", resultall.objects);
-
-        model.addAttribute("usuariobuscar", new Usuario());
-
+        
         return ("GetAll");
     }
 
