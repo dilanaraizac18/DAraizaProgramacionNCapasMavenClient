@@ -6,6 +6,10 @@ import com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.ErroresArchivo;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Pais;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
+import com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario;
+
+
+import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Rol;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario;
 import jakarta.servlet.http.HttpSession;
@@ -24,6 +28,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,12 +61,16 @@ public class UsuarioController {
 
         RestTemplate restTemplate = new RestTemplate();
         
-        ResponseEntity<Usuario> responseEntity = restTemplate.exchange(rutaBase = "demo/api");
+        ResponseEntity<Result> responseEntity = restTemplate.exchange(rutaBase + "/demo/api", HttpMethod.GET, HttpEntity.EMPTY, new ParameterizedTypeReference<Result>(){});
         
-        
-        
+        if(responseEntity.getStatusCode().value()==200){
+            Result result = responseEntity.getBody();
+            model.addAttribute("usuarios", result.objects );
+        }
         return ("GetAll");
     }
+    
+}
 
 //    @PostMapping
 //    public String Search(@ModelAttribute("usuariobuscar") Usuario usuario, Model model) {
@@ -561,4 +572,4 @@ public class UsuarioController {
 //        return result;
 //    }
 
-}
+
