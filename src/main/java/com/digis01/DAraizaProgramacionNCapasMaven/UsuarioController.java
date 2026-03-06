@@ -61,7 +61,7 @@ public class UsuarioController {
 
         RestTemplate restTemplate = new RestTemplate();
         
-        ResponseEntity<Result> responseEntity = restTemplate.exchange(rutaBase + "/demo/api", HttpMethod.GET, HttpEntity.EMPTY, new ParameterizedTypeReference<Result>(){});
+        ResponseEntity<Result> responseEntity = restTemplate.exchange(rutaBase + "demo/api", HttpMethod.GET, HttpEntity.EMPTY, new ParameterizedTypeReference<Result>(){});
         
         if(responseEntity.getStatusCode().value()==200){
             Result result = responseEntity.getBody();
