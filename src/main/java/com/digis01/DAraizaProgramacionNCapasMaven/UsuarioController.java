@@ -61,11 +61,11 @@ public class UsuarioController {
 
         RestTemplate restTemplate = new RestTemplate();
         
-        ResponseEntity<Result> responseEntity = restTemplate.exchange(rutaBase + "demo/api", HttpMethod.GET, HttpEntity.EMPTY, new ParameterizedTypeReference<Result>(){});
+        ResponseEntity<Result<Usuario>> responseEntity = restTemplate.exchange(rutaBase + "/demo/api", HttpMethod.GET, HttpEntity.EMPTY, new ParameterizedTypeReference<Result<Usuario>>(){});
         
         if(responseEntity.getStatusCode().value()==200){
             Result result = responseEntity.getBody();
-            model.addAttribute("usuarios", result.objects );
+            model.addAttribute("usuarios", result );
         }
         return ("GetAll");
     }
