@@ -65,8 +65,11 @@ public class UsuarioController {
         
         if(responseEntity.getStatusCode().value()==200){
             Result result = responseEntity.getBody();
-            model.addAttribute("usuarios", result.objects );
+            model.addAttribute("usuarios", result );
+            model.addAttribute("usuario", new Usuario());
+            
         }
+        
         return ("GetAll");
     }
     
