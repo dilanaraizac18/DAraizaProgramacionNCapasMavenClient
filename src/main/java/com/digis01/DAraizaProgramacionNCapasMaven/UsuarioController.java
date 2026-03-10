@@ -88,6 +88,41 @@ public class UsuarioController {
             return "GetAll";
     }
     
+    @GetMapping("formulario")
+    public String Formulario(Model model){
+        Result result;
+        
+        RestTemplate restTemplate = new RestTemplate();
+        
+         model.addAttribute("usuario", new Usuario());
+
+        try {
+            //paises
+            ResponseEntity<Result> responsePaises = restTemplate.exchange(rutaBase + "/demo/api/usuario/pais",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<Result>() {
+            });
+            model.addAttribute("paises", responsePaises.getBody().objects);
+
+            //roles
+            ResponseEntity<Result> responseRoles = restTemplate.exchange(rutaBase + "/demo/api/usuario/rol",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<Result>() {
+            });
+            model.addAttribute("roles", responseRoles.getBody().objects);
+        } catch (Exception ex) {
+            System.err.println("Error en RestTemplate: " + ex.getMessage());
+            model.addAttribute("error", "Error de conexión: " + ex.getLocalizedMessage());
+        }
+
+        return "Form";
+    }
+
+    
+    
+    
     
     
     
