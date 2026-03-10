@@ -90,7 +90,7 @@ public class UsuarioController {
     
     @GetMapping("formulario")
     public String Formulario(Model model){
-        Result result;
+        Result result = new Result();
         
         RestTemplate restTemplate = new RestTemplate();
         
@@ -98,7 +98,7 @@ public class UsuarioController {
 
         try {
             //paises
-            ResponseEntity<Result> responsePaises = restTemplate.exchange(rutaBase + "/demo/api/usuario/pais",
+            ResponseEntity<Result> responsePaises = restTemplate.exchange(rutaBase + "/api/pais",
                     HttpMethod.GET,
                     null,
                     new ParameterizedTypeReference<Result>() {
@@ -106,7 +106,7 @@ public class UsuarioController {
             model.addAttribute("paises", responsePaises.getBody().objects);
 
             //roles
-            ResponseEntity<Result> responseRoles = restTemplate.exchange(rutaBase + "/demo/api/usuario/rol",
+            ResponseEntity<Result> responseRoles = restTemplate.exchange(rutaBase + "/api/rol",
                     HttpMethod.GET,
                     null,
                     new ParameterizedTypeReference<Result>() {
@@ -117,7 +117,7 @@ public class UsuarioController {
             model.addAttribute("error", "Error de conexión: " + ex.getLocalizedMessage());
         }
 
-        return "Form";
+        return "Formulario";
     }
 
     
