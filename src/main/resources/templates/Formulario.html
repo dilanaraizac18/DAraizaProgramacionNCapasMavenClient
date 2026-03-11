@@ -167,7 +167,7 @@ s<!DOCTYPE html>
                             <label class = "form-label text-white fs-5">Pais</label>
                             <select id="ddlpais" class="form-select form-select-sm w-25 bg-dark text-success border-success" th:field="*{Direcciones[0].colonia.municipio.estado.pais.idPais}">
                                 <option value=0 selected> Seleccione un pais</option>
-                                <option th:each="pais : ${paises}" th:value="${pais.IdPais}" th:text="${pais.Nombre}"></option>
+                                <option th:each="pais : ${paises}" th:value="${pais.idPais}" th:text="${pais.Nombre}"></option>
                             </select>
 
                         </div>
