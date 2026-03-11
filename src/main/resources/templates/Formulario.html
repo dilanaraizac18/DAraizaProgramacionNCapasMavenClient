@@ -396,7 +396,7 @@ s<!DOCTYPE html>
                 var idPais = $("#ddlpais").val();
                 if (idPais != 0) {
                     $.ajax({
-                        url: "getEstadosByPais/" + idPais,
+                        url: "http://localhost:8080/api/estado?idPais=" + idPais,
                         type: "GET",
                         dataType: 'json',
                         success: function (data, textStatus, jqXHR) {
@@ -429,7 +429,7 @@ s<!DOCTYPE html>
                 if (idEstado != 0) {
 
                     $.ajax({
-                        url: "getMunicipioByEstado/" + idEstado,
+                        url: "http://localhost:8080/api/municipio?idEstado=" + idEstado,
                         type: "GET",
                         dataType: 'json',
                         success: function (data, textStatus, jqXHR) {
@@ -468,7 +468,7 @@ s<!DOCTYPE html>
                 console.log(idMunicipio);
                 if (idMunicipio != 0) {
                     $.ajax({
-                        url: "/usuario/getColoniaByMunicipio/" + idMunicipio,
+                        url: "http://localhost:8080/api/colonia?idMunicipio=" + idMunicipio,
                         type: 'GET',
                         dataType: 'json',
                         success: function (data, textStatus, jqXHR) {
