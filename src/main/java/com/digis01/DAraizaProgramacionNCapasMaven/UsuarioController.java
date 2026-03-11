@@ -95,18 +95,18 @@ public class UsuarioController {
                         null,
                         new ParameterizedTypeReference<Result>() {
                 });
-                model.addAttribute("roles", responseRoles.getBody().objects);
-
-                //roles
-                ResponseEntity<Result> responsePaises = restTemplate.exchange(rutaBase + "/api/pais",
-                        HttpMethod.GET,
-                        null,
-                        new ParameterizedTypeReference<Result>() {
-                });
-                model.addAttribute("paises", responsePaises.getBody().objects);
-
-                Result<Usuario> usuario = responseEntity.getBody();
-
+//                model.addAttribute("roles", responseRoles.getBody().objects);
+//
+//                //roles
+//                ResponseEntity<Result> responsePaises = restTemplate.exchange(rutaBase + "/api/pais",
+//                        HttpMethod.GET,
+//                        null,
+//                        new ParameterizedTypeReference<Result>() {
+//                });
+//                model.addAttribute("paises", responsePaises.getBody().objects);
+//
+//                Result<Usuario> usuario = responseEntity.getBody();
+//
 //                int idPais = usuario.object.Direcciones.get(0).colonia.municipio.estado.pais.getIdPais();
 //                int idEstado = usuario.object.Direcciones.get(0).colonia.municipio.estado.getIdEstado();
 //                int idMunicipio = usuario.object.Direcciones.get(0).colonia.municipio.getIdMunicipio();

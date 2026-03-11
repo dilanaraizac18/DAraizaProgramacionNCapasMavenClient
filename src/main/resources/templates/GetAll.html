@@ -149,7 +149,7 @@ end UsuarioUpdateStatus;
                         <td>
                             <a class="btn btn-success" th:href="@{usuario/form}"><i class="bi bi-pencil-fill"></i></a> 
                             <a class="btn btn-danger" href= "#" data-bs-target="#modalEliminar" data-bs-toggle="modal" th:onclick="|ChangeUrl(${usuario.idUsuario})|"><i class="bi bi-person-dash"></i></a>
-                            <a th:href="@{/usuario/details/{IdUsuario}(IdUsuario=${usuario.idUsuario})}" class="btn btn-warning" ><i class="bi bi-info-circle"></i></a>
+                            <a th:href="@{/usuario/{IdUsuario}(IdUsuario=${usuario.idUsuario})}" class="btn btn-warning" ><i class="bi bi-info-circle"></i></a>
                         </td>
 
 
