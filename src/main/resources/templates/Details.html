@@ -210,7 +210,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="post" th:object="${usuario}" th:action="@{/usuario/updateimg/{IdUsuario}(IdUsuario=${usuario.idUsuario})} " enctype="multipart/form-data">
+                                    <form method="post" th:object="${usuario}" th:action="@{/usuario/imagen/{IdUsuario}(IdUsuario=${usuario.idUsuario})} " enctype="multipart/form-data">
 
                                         <input name="imagen" id="imagen" accept="image/png, image/jpg" type="file" class="form-control bg-dark text-success border border-success">
 

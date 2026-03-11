@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -262,6 +263,29 @@ public class UsuarioController {
             return "redirect:/usuario";
         }
 
+    }
+    
+    @PostMapping ("/imagen/{idusuario}")
+    public String UpdateImagen(@ModelAttribute ("usuario") Usuario usuario, @PathVariable ("idusuario") int idusuario, @RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes) throws IOException{
+        Result result = new Result();
+        
+       
+        RestTemplate restTemplate = new RestTemplate();
+        
+        ResponseEntity<Result> responseImagenUpdate = restTemplate.exchange(rutaBase + "/demo/api/imagen/{idusuario}", 
+                HttpMethod.PUT,
+                null,
+                new ParameterizedTypeReference<Result>(){},
+                idusuario);
+        
+        result.correct = true;
+        
+        if (result.correct) {
+            redirectAttributes.addFlashAttribute("mensaje", "Borrado exitosamente");
+            return "redirect:/usuario";
+        } else {
+            return "redirect:/usuario";
+        }
     }
     
     
