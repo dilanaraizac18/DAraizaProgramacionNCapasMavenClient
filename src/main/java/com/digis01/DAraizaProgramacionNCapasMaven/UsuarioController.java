@@ -288,11 +288,73 @@ public class UsuarioController {
         }
     }
     
+    @PostMapping("/direccion/{idusuario}/{iddireccion}")
+    public String UpdateDireccion(@ModelAttribute ("direccion") Direccion direccion, @PathVariable ("idusuario") int idusuario, @PathVariable ("iddireccioon") int iddireccion, RedirectAttributes redirectAttributes ){
+      
     
-    
-    
-    
-    
+     Result result = new Result();
+        RestTemplate restTemplate = new RestTemplate();
+        direccion.setIdDireccion(iddireccion);
+        try {
+            
+            ResponseEntity<Result> responseUpdateDireccion = restTemplate.exchange(rutaBase + "/api/Direccion", 
+                    HttpMethod.PUT,
+                    new HttpEntity<>(direccion),
+                    new ParameterizedTypeReference<Result>() {});
+            
+            result = responseUpdateDireccion.getBody();
+            
+            if (result.correct) {
+                redirectAttributes.addFlashAttribute("mensaje", "Dirección actualizada correctamente");
+            }else{
+                redirectAttributes.addFlashAttribute("error", "Error al actualizar: " + result.errorMessage);
+            }
+            
+            
+        } catch (Exception e) {
+            result.correct = false;
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
+        }
+        
+        
+        return "redirect:/usuario/" + idusuario;
+    }
+        
+         @GetMapping("details/updateDireccion")
+    public String DetailsDireccionUpdate(Model model){
+        Result result = new Result();
+        
+        RestTemplate restTemplate = new RestTemplate();
+        
+         model.addAttribute("usuario", new Usuario());
+         
+         
+
+        try {
+            //paises
+            ResponseEntity<Result> responsePaises = restTemplate.exchange(rutaBase + "/api/pais",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<Result>() {
+            });
+            model.addAttribute("paises", responsePaises.getBody().objects);
+
+          
+        } catch (Exception ex) {
+            System.err.println("Error en RestTemplate: " + ex.getMessage());
+            model.addAttribute("error", "Error de conexión: " + ex.getLocalizedMessage());
+        }
+
+        return "redirect:/usuario/";
+    }
 }
+    
+    
+    
+    
+    
+    
+
 
 
