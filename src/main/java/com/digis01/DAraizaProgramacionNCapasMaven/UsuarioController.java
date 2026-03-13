@@ -266,27 +266,38 @@ public class UsuarioController {
     }
     
     @PostMapping ("/imagen/{idusuario}")
-    public String UpdateImagen(@ModelAttribute ("usuario") Usuario usuario, @PathVariable ("idusuario") int idusuario, @RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes) throws IOException{
+  
+    public String UpdateImagen(@PathVariable("idusuario") int idUsuario, @RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes) {
         Result result = new Result();
-        
-       
         RestTemplate restTemplate = new RestTemplate();
-        
-        ResponseEntity<Result> responseImagenUpdate = restTemplate.exchange(rutaBase + "/demo/api/imagen/{idusuario}", 
-                HttpMethod.PUT,
-                null,
-                new ParameterizedTypeReference<Result>(){},
-                idusuario);
-        
-        result.correct = true;
-        
-        if (result.correct) {
-            redirectAttributes.addFlashAttribute("mensaje", "Borrado exitosamente");
-            return "redirect:/usuario";
-        } else {
-            return "redirect:/usuario";
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("imagen", imagen.getResource());
+            
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+            ResponseEntity<Result> responseUpdateImagen = restTemplate.exchange(rutaBase + "/demo/api/imagen/" + idUsuario,
+                    HttpMethod.POST,
+                    requestEntity,
+                    Result.class);
+
+            if (responseUpdateImagen.getBody() != null && responseUpdateImagen.getBody().correct) {
+                redirectAttributes.addFlashAttribute("mensaje", "Imagen agregada correctamente");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Error al actualizar Imagen: " + result.errorMessage);
+            }
+
+        } catch (Exception e) {
+            result.correct = false;
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
         }
+        return "redirect:/usuario/" + idUsuario;
     }
+
     
     @PostMapping("/direccion/{idusuario}/{iddireccion}")
     public String UpdateDireccion(@ModelAttribute ("direccion") Direccion direccion, @PathVariable ("idusuario") int idusuario, @PathVariable ("iddireccioon") int iddireccion, RedirectAttributes redirectAttributes ){
