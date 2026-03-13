@@ -265,6 +265,30 @@ public class UsuarioController {
 
     }
     
+    @GetMapping("/delete/direccion/{iddireccion}")
+    public String DeteleDireccion(@PathVariable("iddireccion") int iddireccion, RedirectAttributes redirectAttributes) {
+        Result result = new Result();
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<Result> responseBorraDireccion = restTemplate.exchange(rutaBase + "/demo/api/Delete/Direccion/{iddireccion}",
+                HttpMethod.DELETE,
+                null,
+                new ParameterizedTypeReference<Result>() {
+        },
+                iddireccion);
+
+        result.correct = true;
+
+        if (result.correct) {
+            redirectAttributes.addFlashAttribute("mensaje", "Borrado exitosamente");
+            return "redirect:/usuario";
+        } else {
+            return "redirect:/usuario";
+        }
+
+    }
+    
     @PostMapping ("/imagen/{idusuario}")
   
     public String UpdateImagen(@PathVariable("idusuario") int idUsuario, @RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes) {
