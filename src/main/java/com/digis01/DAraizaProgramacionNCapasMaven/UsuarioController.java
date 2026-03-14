@@ -171,7 +171,7 @@ public class UsuarioController {
     }
     
         @PostMapping("form")                                                                                                        //del model vienen todas las modificaciones
-    public String Accion(@ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, @RequestParam("imagenFile") MultipartFile imagenFile, Model model) {
+    public String Accion(@ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, @RequestParam("imagen") MultipartFile imagen, Model model) {
         Result result = new Result();
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -383,6 +383,25 @@ public class UsuarioController {
 
         return "redirect:/usuario/";
     }
+    
+    @PostMapping("/update/{idusuario}")
+    public String UpdateUsuario(@PathVariable ("idusuario") int idusuario, @ModelAttribute ("usuario") Usuario usuario){
+        Result result = new Result();
+        
+        RestTemplate restTemplate = new RestTemplate();
+        try{
+            
+            
+            
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        
+        return "redirect:/usuario";
+    }
+    
 }
     
     

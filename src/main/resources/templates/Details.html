@@ -15,6 +15,8 @@
         <div class="container">
 
             <div class="row">
+                
+
 
                 <table class = "table table-dark table-striped table-responsive border border-success table-hover">
                     <thead class = "table-dark ">
@@ -61,6 +63,7 @@
                     <td>
                     <li th:each = "direccion : ${usuario.Direcciones} " th:text="|Calle: ${direccion.Calle} ${direccion.NumeroInterior} ${direccion.NumeroExterior}|"></li>
                     <a th:each = "direccion : ${usuario.Direcciones} " class="btn btn-danger "  th:href="@{/usuario/delete/direccion/{iddireccion}(iddireccion=${direccion.idDireccion})}"><i class="bi bi-house-dash"></i></a>
+                    <a th:each ="direccion : ${usuario.Direcciones}" class="btn btn-info"> <i class="bi bi-house-gear"></i></a>
                     <!--                    <li th:each = "colonia : ${usuario.direccion.colonia}" th:text = "|${colonia.Nombre}|"></li>-->
                     </td> 
 
@@ -70,6 +73,9 @@
                         <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#modalUpdate" ><i class="bi bi-pencil-fill"></i></a> 
                         <a class=" btn btn-info" href="#" data-bs-toggle = "modal" data-bs-target="#modalUpDireccion"><i class="bi bi-house-add"></i></a>
                     </td>
+                    
+                        <a class="btn btn-danger" th:href="@{/usuario}"><i class="bi bi-house"></i></a>
+
                     <!--  --------------------------------------------            INICIO DEL MODAL --------------------------------------------------------------------------------------->
                     <div class="modal fade  bg-dark" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-xl bg-dark" role="document">
@@ -355,15 +361,7 @@
         </div>
 
 
-
-
-
-
-
-
-
     </div>
-
 
 
 
