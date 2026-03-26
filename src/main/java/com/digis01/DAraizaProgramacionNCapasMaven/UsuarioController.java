@@ -212,8 +212,8 @@ public class UsuarioController {
 
             body.add("datos", usuario);
 
-            if (!imagenFile.isEmpty()) {
-                body.add("imagen", imagenFile.getResource());
+            if (!imagen.isEmpty()) {
+                body.add("imagen", imagen.getResource());
             }
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
