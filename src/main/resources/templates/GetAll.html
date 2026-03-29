@@ -250,7 +250,11 @@ end UsuarioUpdateStatus;
                 console.log("Enviando -> ID: " + idUsuario + " Estatus: " + status);
                 $.ajax({
                     type: "POST",
-                    url: "usuario/updateStatus/" + status + "/" + idUsuario,
+                    xhrFields: {
+                            withCredentials: true // Esto permite enviar la cookie HttpOnly
+                        },
+                    url: "http://localhost:8080/api/usuario/Estatus?identificador=" + idUsuario + "&estatus=" + status,
+                    
                     
                     success: function (response) {
                         if (response.correct) {
@@ -258,7 +262,7 @@ end UsuarioUpdateStatus;
                             console.log("Estatus actualizado con éxito");
                         } else {
                             alert("Error al actualizar: " + response.errorMessage);
-                            checkbox.prop('checked', !checkbox.is(':checked'));
+//                            checkbox.prop('checked', !checkbox.is(':checked'));
                         }
                     },
                     error: function (e) {
@@ -268,7 +272,7 @@ end UsuarioUpdateStatus;
                     },
                     complete: function () {
                         // Re-habilitamos 
-                        checkbox.prop('disabled', false);
+//                        checkbox.prop('disabled', false);
                     }
                 });
             });
