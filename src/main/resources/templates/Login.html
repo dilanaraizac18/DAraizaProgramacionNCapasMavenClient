@@ -17,10 +17,10 @@
                                          <i class="bi bi-person fs-1"></i>
 
                         <h1>Inicio de sesión</h1>
-                        <form th:action="@{/login}" method="post">
+                        <form th:action="@{/login}" method="post" th:object="${usuario}">
                             
-                            <input type="text" name ="username" class="bg-dark border border-success text-center p-2 m-2 text-success rounded" placeholder="Usuario"> <br>
-                            <input type="password" name="password" class="bg-dark border border-success text-center p-2 m-2 text-success rounded" placeholder="Contraseña"> <br>
+                            <input type="text" name ="username" class="bg-dark border border-success text-center p-2 m-2 text-success rounded" placeholder="Usuario" th:field="*{username}" > <br>
+                            <input type="password" name="password" class="bg-dark border border-success text-center p-2 m-2 text-success rounded" placeholder="Contraseña" th:field="*{password}" > <br>
                        <button type="submit" class="btn btn-success"><i class="bi bi-box-arrow-in-right"></i> Iniciar sesion</button></center>
                         
                         </form>

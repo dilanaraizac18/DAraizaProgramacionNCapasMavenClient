@@ -33,7 +33,7 @@ import org.springframework.web.client.RestTemplate;
 public class LoginController {
     
     
-    private static String RutaBase = "http://localhost:8080/auth";
+    private static String RutaBase = "http://localhost:8080/auth/login";
     
     @GetMapping
     public String Login (@RequestParam(value = "error", required = false) String error, Model model) {
@@ -77,7 +77,7 @@ public class LoginController {
                 if (resultR.correct) {
                     return "redirect:/usuario";
                 }
-                return "/Login";
+                return "/login";
             }
                     
                     
