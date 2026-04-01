@@ -6,6 +6,8 @@ package com.digis01.DAraizaProgramacionNCapasMaven;
 
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,13 +33,12 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
-    
-    
+
     private static String RutaBase = "http://localhost:8080/auth/login";
-    
+
     @GetMapping
-    public String Login (@RequestParam(value = "error", required = false) String error, Model model) {
-         model.addAttribute("usuario", new Usuario());
+    public String Login(@RequestParam(value = "error", required = false) String error, Model model) {
+        model.addAttribute("usuario", new Usuario());
         if (error != null) {
             model.addAttribute("errorlogin", error);
         }
@@ -45,23 +46,22 @@ public class LoginController {
         return "Login";
 
     }
-    
-    
-    
+
     @PostMapping
-    public String PostLogin(@ModelAttribute("username")  String username, @ModelAttribute("password") String password, HttpSession httpSession){
+    public String PostLogin(@ModelAttribute("username") String username, @ModelAttribute("password") String password, 
+            HttpSession httpSession, HttpServletResponse response) {
         Result result = new Result();
-                
-        try{
-                    RestTemplate restTemplate = new RestTemplate();
-                    HttpHeaders httpHeader = new HttpHeaders();
-                    httpHeader.setContentType(MediaType.APPLICATION_JSON);
-                    
-                    Map<String, Object> userbody =  new HashMap<>();
-                    userbody.put("username", username);
-                    userbody.put("password", password);
-                    
-                    HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(userbody, httpHeader);
+
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeader = new HttpHeaders();
+            httpHeader.setContentType(MediaType.APPLICATION_JSON);
+
+            Map<String, Object> userbody = new HashMap<>();
+            userbody.put("username", username);
+            userbody.put("password", password);
+
+            HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(userbody, httpHeader);
 
             ResponseEntity<Result> responseLogin = restTemplate.exchange(RutaBase,
                     HttpMethod.POST,
@@ -70,27 +70,31 @@ public class LoginController {
 
             if (responseLogin.getBody() != null) {
                 Result resultR = responseLogin.getBody();
-                
+
                 String token = (String) resultR.object;
                 httpSession.setAttribute("token", token);
 
+                Cookie jwtCookie = new Cookie("jwtToken", token);
+                jwtCookie.setHttpOnly(false); // Ponlo en false para que AJAX pueda leerlo
+                jwtCookie.setPath("/");
+                jwtCookie.setMaxAge(3600);
+
+                response.addCookie(jwtCookie);
+
+                String rolLogeado = resultR.errorMessage;
                 if (resultR.correct) {
                     return "redirect:/usuario";
+                } else {
+                    return null;
                 }
-                return "/login";
             }
-                    
-                    
-                    
-                    
-            
-            
-        }catch(Exception ex){
+
+        } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
         }
-         
-        return "GetAll";
+
+        return "redirect:/usuario";
     }
 }

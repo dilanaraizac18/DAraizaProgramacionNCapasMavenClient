@@ -93,9 +93,17 @@ public class UsuarioController {
 
 
     @GetMapping
-    public String Usuarios(Model model) {
+    public String Usuarios( HttpSession httpSession, Model model) {
 
         RestTemplate restTemplate = new RestTemplate();
+        
+         String token = (String) httpSession.getAttribute("token");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        //entidad de la peticion
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
         
         ResponseEntity<Result<Usuario>> responseEntity = restTemplate.exchange(rutaBase + "/demo/api", HttpMethod.GET, HttpEntity.EMPTY, new ParameterizedTypeReference<Result<Usuario>>(){});
         
